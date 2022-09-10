@@ -25,26 +25,32 @@ function checkInput(inputString) {
     last = stringArray[0];
     let openBracketCount = 0;
     if (last === '(') {
-        openBracket += 1;
+        openBracketCount += 1;
     }
     let closeBracketCount = 0;
 
     for (let i = 1; i < stringArray.length; i++) {
         let character = stringArray[i];
+        if (character === '(') {
+            openBracketCount += 1;
+        }
+        if (character === ')') {
+            closeBracketCount += 1;
+        }
         if (OPERATORS.includes(character) && OPERATORS.includes(last)) {
             alert('The expression cannot contain consecutive operators');
-            return false;
             clear();
+            return false;
         }
         if (character === '(' && ILLEGAL_AFTER_OPEN_BRACKET.includes(stringArray[i + 1])) {
             alert('The expression has an illegal character after (');
-            return false;
             clear();
+            return false;
         }
         if (character === ')' && OPERATORS.includes(last)) {
             alert('The expression has an illegal character after )');
-            return false;
             clear();
+            return false;
         }
         last = character;
     }
@@ -109,45 +115,49 @@ function popOperator() {
 
 function evaluate() {
     if (operandStack.size() === 1 && operatorStack.isEmpty()) {
-        return operandStack.pop();
+        return popOperand();
     }
     while (!operandStack.isEmpty()) {
-        let operand = operandStack.pop();
-        let operator = operatorStack.pop();
+        let operand = popOperand();
+        let operator = popOperator();
         if (operator === '+') {
-            let ans = operand + operandStack.pop();
-            operandStack.push(ans);
+            let ans = operand + popOperand();
+            addOperand(ans);
         }
         if (operator === '-') {
-            let ans = operand - operandStack.pop();
-            operandStack.push(ans);
+            let ans = operand - popOperand();
+            addOperand(ans);
         }
         if (operator === '/') {
-            let secondOperand = operandStack.pop();
+            let secondOperand = popOperand();
             if (secondOperand === 0) {
                 alert('Cannot divide by zero');
                 clear();
                 return;
             }
             let ans = operand / secondOperand;
-            operandStack.push(ans);
+            addOperand(ans);
         }
         if (operator === '*') {
-            let ans = operand * operandStack.pop();
-            operandStack.push(ans);
+            let ans = operand * popOperand();
+            addOperand(ans);
         }
         if (operator === '%') {
-            let ans = operand % operandStack.pop();
-            operandStack.push(ans);
+            let ans = operand % popOperand();
+            addOperand(ans);
         }
         if (operator === '^') {
-            let ans = Math.pow(operand, operandStack.pop());
-            operandStack.push(ans);
+            let ans = Math.pow(operand, popOperand());
+            addOperand(ans);
         }
     }
-    return operandStack.pop();
+    return popOperand();
 }
 function clear() {
     operandStack.clear();
     operatorStack.clear();
+}
+
+function runCalculator(expression) {
+
 }

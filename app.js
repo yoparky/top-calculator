@@ -54,6 +54,9 @@ function checkInput(inputString) {
         }
         last = character;
     }
+    if (openBracketCount !== closeBracketCount) {
+        return false;
+    }
     return true;
 }
 
@@ -159,5 +162,8 @@ function clear() {
 }
 
 function runCalculator(expression) {
-
+    if (checkInput(expression)) {
+        processInput(expression);
+        return evaluate();
+    }
 }

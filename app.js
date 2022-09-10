@@ -2,6 +2,8 @@ import {LinkedList} from './LinkedList.js'
 
 "use strict";
 
+const OPERATORS = ['+', '-', '*', '/', '%', '^'];
+const ILLEGAL_AFTER_OPEN_BRACKET = ['+', ')', '*', '/', '%', '^']
 const ALLOWED_OPERATORS = ['+', '-', '*', '/', '%', '^', '(', ')'];
 const ALLOWED_START_OPERATORS = ['-', '('];
 const ALLOWED_END_OPERATORS = [')'];
@@ -10,6 +12,43 @@ let operatorStack = new LinkedList();
 
 function checkInput(inputString) {
     let stringArray = inputString.split();
+    if (!(!isNaN(stringArray[0]) || ALLOWED_START_OPERATORS.includes(stringArray[0]))) {
+        alert('The expression must begin with a number or ( or -');
+        return false;
+        clear();
+    }
+    if (!(!isNaN(stringArray[stringArray.length - 1]) || ALLOWED_END_OPERATORS.includes(stringArray[stringArray.length-1]))) {
+        alert('The expression must end with a number or )');
+        return false;
+        clear();
+    }
+    last = stringArray[0];
+    let openBracketCount = 0;
+    if (last === '(') {
+        openBracket += 1;
+    }
+    let closeBracketCount = 0;
+
+    for (let i = 1; i < stringArray.length; i++) {
+        let character = stringArray[i];
+        if (OPERATORS.includes(character) && OPERATORS.includes(last)) {
+            alert('The expression cannot contain consecutive operators');
+            return false;
+            clear();
+        }
+        if (character === '(' && ILLEGAL_AFTER_OPEN_BRACKET.includes(stringArray[i + 1])) {
+            alert('The expression has an illegal character after (');
+            return false;
+            clear();
+        }
+        if (character === ')' && OPERATORS.includes(last)) {
+            alert('The expression has an illegal character after )');
+            return false;
+            clear();
+        }
+        last = character;
+    }
+    return true;
 }
 
 function processInput(inputString) {
@@ -65,4 +104,9 @@ function popOperator() {
     return operator;
 }
 
-function evaluate()
+function evaluate() {
+
+}
+function clear() {
+
+}

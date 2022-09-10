@@ -2,7 +2,7 @@ import {LinkedList} from './LinkedList.js'
 
 "use strict";
 
-const ALLOWED_OPERATORS = ['+', '-', '*', '/', '%', '^'];
+const ALLOWED_OPERATORS = ['+', '-', '*', '/', '%', '^', '(', ')'];
 let operandList = new LinkedList();
 let operatorList = new LinkedList();
 
@@ -14,7 +14,9 @@ function processInput(inputString) {
         if (!isNaN(character)) {
             tempNumber += character;
         } else if (ALLOWED_OPERATORS.includes(character)) {
-            
+            let numberToStack = +tempNumber;
+            operandList.push(numberToStack);
+            operatorList.push(character);
         }
     }
 }

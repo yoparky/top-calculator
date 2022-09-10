@@ -87,6 +87,9 @@ function processInput(inputString) {
                 addOperand(numberToStack);
             }
         }
+        if (character === ')') {
+            evaluate();
+        }
     }
 }
 function addOperand(operand) {
@@ -105,8 +108,46 @@ function popOperator() {
 }
 
 function evaluate() {
-
+    if (operandStack.size() === 1 && operatorStack.isEmpty()) {
+        return operandStack.pop();
+    }
+    while (!operandStack.isEmpty()) {
+        let operand = operandStack.pop();
+        let operator = operatorStack.pop();
+        if (operator === '+') {
+            let ans = operand + operandStack.pop();
+            operandStack.push(ans);
+        }
+        if (operator === '-') {
+            let ans = operand - operandStack.pop();
+            operandStack.push(ans);
+        }
+        if (operator === '/') {
+            let secondOperand = operandStack.pop();
+            if (secondOperand === 0) {
+                alert('Cannot divide by zero');
+                clear();
+                return;
+            }
+            let ans = operand / secondOperand;
+            operandStack.push(ans);
+        }
+        if (operator === '*') {
+            let ans = operand * operandStack.pop();
+            operandStack.push(ans);
+        }
+        if (operator === '%') {
+            let ans = operand % operandStack.pop();
+            operandStack.push(ans);
+        }
+        if (operator === '^') {
+            let ans = Math.pow(operand, operandStack.pop());
+            operandStack.push(ans);
+        }
+    }
+    return operandStack.pop();
 }
 function clear() {
-
+    operandStack.clear();
+    operatorStack.clear();
 }

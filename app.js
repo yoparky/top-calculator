@@ -1,6 +1,54 @@
-import {LinkedList} from './LinkedList.js'
-
 "use strict";
+
+class LinkedListNode {
+    constructor(item) {
+        this.item = item;
+        this.next = null;
+    }
+    get item(){
+        return this.item;
+    }
+    get next(){
+        return this.next;
+    }
+    setNext(node) {
+        this.next = node;
+    }
+}
+class LinkedList {
+    constructor() {
+        this.head = null;
+        this.size = 0;
+    }
+
+    get size() {
+        return this.size;
+    }
+    get head() {
+        return this.head;
+    }
+    isEmpty() {
+        return this.size !== 0;
+    }
+    push(item) {
+        let newNode = new LinkedListNode(item);
+        let oldHead = this.head;
+        newNode.setNext(oldHead);
+        this.head = newNode;
+        this.size++;
+    }
+    pop() {
+        let popNode = this.head;
+        this.head = popNode.next;
+        this.size--;
+        return popNode.item;
+    }
+    clear() {
+        while (!this.isEmpty()) {
+            pop();
+        }
+    }
+}
 
 const OPERATORS = ['+', '-', '*', '/', '%', '^'];
 const ILLEGAL_AFTER_OPEN_BRACKET = ['+', ')', '*', '/', '%', '^']

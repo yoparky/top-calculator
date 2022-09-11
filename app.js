@@ -170,6 +170,30 @@ function runCalculator(expression) {
     workingString = "";
 }
 
-function assignButtons {
+function updateWorkingString(character) {
+    workingString += character;
+}
+
+function assignButtons() {
+    document.getElementById('button1').addEventListener('click', updateWorkingString('1'));
+    document.getElementById('button2').addEventListener('click', updateWorkingString('2'));
+    document.getElementById('button3').addEventListener('click', updateWorkingString('3'));
+    document.getElementById('button4').addEventListener('click', updateWorkingString('4'));
+    document.getElementById('button5').addEventListener('click', updateWorkingString('5'));
+    document.getElementById('button6').addEventListener('click', updateWorkingString('6'));
+    document.getElementById('button7').addEventListener('click', updateWorkingString('7'));
+    document.getElementById('button8').addEventListener('click', updateWorkingString('8'));
+    document.getElementById('button9').addEventListener('click', updateWorkingString('9'));
+    document.getElementById('button0').addEventListener('click', updateWorkingString('0'));
+    document.getElementById('buttondiv').addEventListener('click', updateWorkingString('/'));
+    document.getElementById('buttonmul').addEventListener('click', updateWorkingString('*'));
+    document.getElementById('buttonmin').addEventListener('click', updateWorkingString('-'));
+    document.getElementById('buttonplus').addEventListener('click', updateWorkingString('+'));
+    document.getElementById('button0').addEventListener('click', updateWorkingString('%'));
+    document.getElementById('button0').addEventListener('click', updateWorkingString('^'));
+}
+
+function startup() {
+    assignButtons();
     
 }

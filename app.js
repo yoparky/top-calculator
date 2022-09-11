@@ -5,12 +5,6 @@ class LinkedListNode {
         this.item = item;
         this.next = null;
     }
-    get item(){
-        return this.item;
-    }
-    get next(){
-        return this.next;
-    }
     setNext(node) {
         this.next = node;
     }
@@ -20,15 +14,8 @@ class LinkedList {
         this.head = null;
         this.size = 0;
     }
-
-    get size() {
-        return this.size;
-    }
-    get head() {
-        return this.head;
-    }
     isEmpty() {
-        return this.size !== 0;
+        return this.size === 0;
     }
     push(item) {
         let newNode = new LinkedListNode(item);
@@ -45,7 +32,7 @@ class LinkedList {
     }
     clear() {
         while (!this.isEmpty()) {
-            pop();
+            this.pop();
         }
     }
 }
@@ -62,18 +49,19 @@ let workingString = "";
 const display = document.getElementById('screen');
 
 function checkInput(inputString) {
-    let stringArray = inputString.split();
-    if (!(!isNaN(stringArray[0]) || ALLOWED_START_OPERATORS.includes(stringArray[0]))) {
+    let stringArray = inputString.split("");
+    console.log(stringArray[0]);
+    if (!(!isNaN(stringArray[0]) || (ALLOWED_START_OPERATORS.includes(stringArray[0])))) {
         alert('The expression must begin with a number or ( or -');
-        return false;
         clear();
+        return false;
     }
-    if (!(!isNaN(stringArray[stringArray.length - 1]) || ALLOWED_END_OPERATORS.includes(stringArray[stringArray.length-1]))) {
+    if (!(!isNaN(stringArray[0]) || (ALLOWED_END_OPERATORS.includes(stringArray[stringArray.length-1])))) {
         alert('The expression must end with a number or )');
-        return false;
         clear();
+        return false;
     }
-    last = stringArray[0];
+    let last = stringArray[0];
     let openBracketCount = 0;
     if (last === '(') {
         openBracketCount += 1;
@@ -112,10 +100,10 @@ function checkInput(inputString) {
 }
 
 function processInput(inputString) {
-    let stringArray = inputString.split();
+    let stringArray = inputString.split("");
     let tempNumber = "";
     let minusNumber = false;
-    for (i = 0; i < stringArray.length; i++) {
+    for (let i = 0; i < stringArray.length; i++) {
         let character = stringArray[i];
         if (!isNaN(character)) {
             tempNumber += character;
@@ -168,10 +156,12 @@ function popOperator() {
 }
 
 function evaluate() {
-    if (operandStack.size() === 1 && operatorStack.isEmpty()) {
+    console.log(operatorStack.head);
+    console.log(operandStack.head);
+    if (operandStack.size === 1 && operatorStack.isEmpty()) {
         return popOperand();
     }
-    while (!operandStack.isEmpty()) {
+    while (!operatorStack.isEmpty()) {
         let operand = popOperand();
         let operator = popOperator();
         if (operator === '+') {
@@ -197,11 +187,11 @@ function evaluate() {
             addOperand(ans);
         }
         if (operator === '%') {
-            let ans = operand % popOperand();
+            let ans = popOperand() % operand;
             addOperand(ans);
         }
         if (operator === '^') {
-            let ans = Math.pow(operand, popOperand());
+            let ans = Math.pow(popOperand(),operand);
             addOperand(ans);
         }
     }
@@ -211,10 +201,11 @@ function clear() {
     operandStack.clear();
     operatorStack.clear();
     workingString = "";
+    updateDisplay(workingString, 0);
 }
 
 function runCalculator(expression) {
-    if (checkInput(expression)) {
+    if (expression !== "" && checkInput(expression)) {
         processInput(expression);
         return evaluate();
     }
@@ -222,39 +213,55 @@ function runCalculator(expression) {
 }
 
 function updateWorkingString(character) {
-    workingString += character;
+    workingString = workingString + character;
     display.innerText = workingString;
+    console.log(workingString);
 }
 
 function assignButtons() {
-    document.getElementById('button1').addEventListener('click', updateWorkingString('1'));
-    document.getElementById('button2').addEventListener('click', updateWorkingString('2'));
-    document.getElementById('button3').addEventListener('click', updateWorkingString('3'));
-    document.getElementById('button4').addEventListener('click', updateWorkingString('4'));
-    document.getElementById('button5').addEventListener('click', updateWorkingString('5'));
-    document.getElementById('button6').addEventListener('click', updateWorkingString('6'));
-    document.getElementById('button7').addEventListener('click', updateWorkingString('7'));
-    document.getElementById('button8').addEventListener('click', updateWorkingString('8'));
-    document.getElementById('button9').addEventListener('click', updateWorkingString('9'));
-    document.getElementById('button0').addEventListener('click', updateWorkingString('0'));
-    document.getElementById('buttondiv').addEventListener('click', updateWorkingString('/'));
-    document.getElementById('buttonmul').addEventListener('click', updateWorkingString('*'));
-    document.getElementById('buttonmin').addEventListener('click', updateWorkingString('-'));
-    document.getElementById('buttonplus').addEventListener('click', updateWorkingString('+'));
-    document.getElementById('buttonmod').addEventListener('click', updateWorkingString('%'));
-    document.getElementById('buttonpow').addEventListener('click', updateWorkingString('^'));
-    document.getElementById('buttonclear').addEventListener('click', clear());
-    document.getElementById('buttoneq').addEventListener('click', equalsButton());
+    document.getElementById('button1').addEventListener('click', function(){updateWorkingString('1')});
+    document.getElementById('button2').addEventListener('click', function(){updateWorkingString('2')});
+    document.getElementById('button3').addEventListener('click', function(){updateWorkingString('3')});
+    document.getElementById('button4').addEventListener('click', function(){updateWorkingString('4')});
+    document.getElementById('button5').addEventListener('click', function(){updateWorkingString('5')});
+    document.getElementById('button6').addEventListener('click', function(){updateWorkingString('6')});
+    document.getElementById('button7').addEventListener('click', function(){updateWorkingString('7')});
+    document.getElementById('button8').addEventListener('click', function(){updateWorkingString('8')});
+    document.getElementById('button9').addEventListener('click', function(){updateWorkingString('9')});
+    document.getElementById('button0').addEventListener('click', function(){updateWorkingString('0')});
+    document.getElementById('buttondiv').addEventListener('click', function(){updateWorkingString('/')});
+    document.getElementById('buttonmul').addEventListener('click', function(){updateWorkingString('*')});
+    document.getElementById('buttonmin').addEventListener('click', function(){updateWorkingString('-')});
+    document.getElementById('buttonplus').addEventListener('click', function(){updateWorkingString('+')});
+    document.getElementById('buttonmod').addEventListener('click', function(){updateWorkingString('%')});
+    document.getElementById('buttonpow').addEventListener('click', function(){updateWorkingString('^')});
+    document.getElementById('buttonclear').addEventListener('click', function(){clear()});
+    document.getElementById('buttoneq').addEventListener('click', function(){equalsButton()});
+    document.getElementById('buttondel').addEventListener('click', function(){deleteButton()});
 }
 function equalsButton() {
-    let oldWorkingString = workingString;
-    let ans = runCalculator(workingString);
-    updateDisplay(oldWorkingString, ans);
-    workingString = "";
+    if (workingString !== '') {
+        let oldWorkingString = workingString;
+        let ans = runCalculator(workingString);
+        if (typeof ans !== 'undefined') {
+            updateDisplay(oldWorkingString, ans);
+        }
+        workingString = "";
+    }
 }
-function updateDisplay(string, ans) {}
+function deleteButton() {
+    if (workingString !== '') {
+        workingString = workingString.slice(0, -1);
+    }
+    updateDisplay(workingString, "");
+}
+function updateDisplay(string, ans) {
+    display.innerText = string + " " + ans;
+}
 
 function startup() {
     assignButtons();
+    workingString = '';
 
 }
+startup();

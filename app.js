@@ -4,6 +4,7 @@ class LinkedListNode {
     constructor(item) {
         this.item = item;
         this.next = null;
+        this.parent = null;
     }
     setNext(node) {
         this.next = node;
@@ -20,6 +21,9 @@ class LinkedList {
     push(item) {
         let newNode = new LinkedListNode(item);
         let oldHead = this.head;
+        if (oldHead !== null) {
+            oldHead.parent = newNode;
+        }
         newNode.setNext(oldHead);
         this.head = newNode;
         this.size++;

@@ -11,6 +11,8 @@ let operandStack = new LinkedList();
 let operatorStack = new LinkedList();
 let workingString = "";
 
+const display = document.getElementById('screen');
+
 function checkInput(inputString) {
     let stringArray = inputString.split();
     if (!(!isNaN(stringArray[0]) || ALLOWED_START_OPERATORS.includes(stringArray[0]))) {
@@ -160,6 +162,7 @@ function evaluate() {
 function clear() {
     operandStack.clear();
     operatorStack.clear();
+    workingString = "";
 }
 
 function runCalculator(expression) {
@@ -172,6 +175,7 @@ function runCalculator(expression) {
 
 function updateWorkingString(character) {
     workingString += character;
+    display.innerText = workingString;
 }
 
 function assignButtons() {
@@ -189,11 +193,20 @@ function assignButtons() {
     document.getElementById('buttonmul').addEventListener('click', updateWorkingString('*'));
     document.getElementById('buttonmin').addEventListener('click', updateWorkingString('-'));
     document.getElementById('buttonplus').addEventListener('click', updateWorkingString('+'));
-    document.getElementById('button0').addEventListener('click', updateWorkingString('%'));
-    document.getElementById('button0').addEventListener('click', updateWorkingString('^'));
+    document.getElementById('buttonmod').addEventListener('click', updateWorkingString('%'));
+    document.getElementById('buttonpow').addEventListener('click', updateWorkingString('^'));
+    document.getElementById('buttonclear').addEventListener('click', clear());
+    document.getElementById('buttoneq').addEventListener('click', equalsButton());
 }
+function equalsButton() {
+    let oldWorkingString = workingString;
+    let ans = runCalculator(workingString);
+    updateDisplay(oldWorkingString, ans);
+    workingString = "";
+}
+function updateDisplay(string, ans) {}
 
 function startup() {
     assignButtons();
-    
+
 }

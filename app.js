@@ -9,6 +9,7 @@ const ALLOWED_START_OPERATORS = ['-', '('];
 const ALLOWED_END_OPERATORS = [')'];
 let operandStack = new LinkedList();
 let operatorStack = new LinkedList();
+let workingString = "";
 
 function checkInput(inputString) {
     let stringArray = inputString.split();
@@ -166,4 +167,9 @@ function runCalculator(expression) {
         processInput(expression);
         return evaluate();
     }
+    workingString = "";
+}
+
+function assignButtons {
+    
 }
